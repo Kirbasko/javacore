@@ -59,25 +59,20 @@ public class AccuweatherModel implements WeatherModel {
                 date = date.split("T")[0];
                 date = date.replace("\"", "");
 
-                String addition = weatherResponce.split("IconPhrase\":\"")[1];
-                addition = addition.split("\"")[0];
 
                 String tempMin = weatherResponce.split(":")[28];
                 tempMin = tempMin.split(",")[0];
                 String tempMax = weatherResponce.split(":")[32];
                 tempMax = tempMax.split(",")[0];
 
-                System.out.println("Сегодня: " + date + ". " + addition +
-                        ". Температура от " + tempMin + " до " + tempMax + " градусов цельсия.\n");
+                System.out.println("Сегодня: " + date + ". " +
+                        "Температура от " + tempMin + " до " + tempMax + " градусов.\n");
 
                 break;
 
-                //TODO: сделать человекочитаемый вывод погоды. Выбрать параметры для вывода на свое усмотрение
-                //Например: Погода в городе Москва - 5 градусов по цельсию Expect showers late Monday night
-                //dataBaseRepository.saveWeatherToDataBase(new Weather()) - тут после парсинга добавляем данные в БД
+                //dataBaseRepository.saveWeatherToDataBase(new Weather()); //- тут после парсинга добавляем данные в БД
 
             case FIVE_DAYS:
-                //TODO*: реализовать вывод погоды на 5 дней
                 HttpUrl httpUrl5 = new HttpUrl.Builder()
                         .scheme(PROTOKOL)
                         .host(BASE_HOST)
@@ -99,16 +94,14 @@ public class AccuweatherModel implements WeatherModel {
                     String splitDays = weatherResponce5.split("\"Date\":\"")[i];
                     String date5 = splitDays.split("T")[0];
 
-                    String addition5 = splitDays.split("IconPhrase\":\"")[1];
-                    addition5 = addition5.split("\"")[0];
 
                     String tempMin5 = splitDays.split(":")[7];
                     tempMin5 = tempMin5.split(",")[0];
                     String tempMax5 = splitDays.split(":")[11];
                     tempMax5 = tempMax5.split(",")[0];
 
-                    System.out.println(date5 + ". " + addition5 +
-                            ". Температура от " + tempMin5 + " до " + tempMax5 + " градусов цельсия.");
+                    System.out.println(date5 + ". "  +
+                            "Температура от " + tempMin5 + " до " + tempMax5 + " градусов.");
                 }
                 System.out.println();
                 break;

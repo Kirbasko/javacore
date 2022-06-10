@@ -17,7 +17,7 @@ import java.util.List;
 public class DataBaseRepository {
     private String insertWeather = "insert into weather (city, localdate, temperature) values (?, ?, ?)";
     private String getWeather = "select * from weather";
-    private static final String DB_PATH = "jdbc:sqlite:geekbrains.db";
+    private static final String DB_PATH = "jdbc:sqlite:weather.db";
 
     static {
         try {
@@ -31,8 +31,9 @@ public class DataBaseRepository {
         try (Connection connection = DriverManager.getConnection(DB_PATH)) {
             PreparedStatement saveWeather = connection.prepareStatement(insertWeather);
             saveWeather.setString(1, weather.getCity());
-            saveWeather.setString(2, weather.getLocalDate());
-            saveWeather.setDouble(3, weather.getTemperature());
+            saveWeather.setString(2, weather.getDate());
+            saveWeather.setDouble(3, weather.getTempMax());
+            saveWeather.setDouble(4, weather.getTempMin());
             return saveWeather.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -45,8 +46,9 @@ public class DataBaseRepository {
             PreparedStatement saveWeather = connection.prepareStatement(insertWeather);
             for (Weather weather : weatherList) {
                 saveWeather.setString(1, weather.getCity());
-                saveWeather.setString(2, weather.getLocalDate());
-                saveWeather.setDouble(3, weather.getTemperature());
+                saveWeather.setString(2, weather.getDate());
+                saveWeather.setDouble(3, weather.getTempMax());
+                saveWeather.setDouble(4, weather.getTempMin());
                 saveWeather.addBatch();
             }
             saveWeather.executeBatch();
@@ -55,13 +57,6 @@ public class DataBaseRepository {
         }
     }
 
-    //public List<Weather> getSavedToDBWeather() {
-    //    try (Connection connection = DriverManager.getConnection(DB_PATH)) {
-    //        //TODO: реализовать этот метод получения данных из таблицы погоды
-    //    } catch (SQLException throwables) {
-    //        throwables.printStackTrace();
-    //    }
-    //}
 
     public List<Weather> getSavedToDBWeather() {
         List<Weather> weathers = new ArrayList<>();
@@ -69,17 +64,18 @@ public class DataBaseRepository {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(getWeather);
             while (resultSet.next()) {
-                System.out.print(resultSet.getInt("id"));
-                System.out.println(" ");
                 System.out.print(resultSet.getString("city"));
                 System.out.println(" ");
-                System.out.print(resultSet.getString("localdate"));
+                System.out.print(resultSet.getString("date"));
                 System.out.println(" ");
-                System.out.print(resultSet.getDouble("temperature"));
+                System.out.print(resultSet.getDouble("tempMax"));
+                System.out.println(" ");
+                System.out.print(resultSet.getDouble("tempMin"));
                 System.out.println(" ");
                 weathers.add(new Weather(resultSet.getString("city"),
-                        resultSet.getString("localdate"),
-                        resultSet.getDouble("temperature")));
+                        resultSet.getString("date"),
+                        resultSet.getDouble("tempMax"),
+                        resultSet.getDouble("tempMin")));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

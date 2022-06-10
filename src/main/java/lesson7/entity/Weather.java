@@ -2,13 +2,15 @@ package lesson7.entity;
 
 public class Weather {
     private String city;
-    private String localDate;
-    private double temperature;
+    private String date;
+    private double tempMax;
+    private double tempMin;
 
-    public Weather(String city, String localDate, double temperature) {
+    public Weather(String city, String date, double tempMax, double tempMin) {
         this.city = city;
-        this.localDate = localDate;
-        this.temperature = temperature;
+        this.date = date;
+        this.tempMax = tempMax;
+        this.tempMin = tempMin;
     }
 
     public String getCity() {
@@ -19,28 +21,37 @@ public class Weather {
         this.city = city;
     }
 
-    public String getLocalDate() {
-        return localDate;
+    public String getDate() {
+        return date;
     }
 
-    public void setLocalDate(String localDate) {
-        this.localDate = localDate;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public double getTemperature() {
-        return temperature;
+    public double getTempMax() {
+        return tempMax;
     }
 
-    public void setTemperature(double temperature) {
-        this.temperature = temperature;
+    public void setTempMax(double tempMax) {
+        this.tempMax = tempMax;
+    }
+
+    public double getTempMin() {
+        return tempMin;
+    }
+
+    public void setTempMin(double tempMin) {
+        this.tempMin = tempMin;
     }
 
     @Override
     public String toString() {
         return "Weather{" +
                 "city='" + city + '\'' +
-                ", localDate='" + localDate + '\'' +
-                ", temperature=" + String.format("%.2f", temperature) +
+                ", date='" + date + '\'' +
+                ", tempMax=" + tempMax +
+                ", tempMin=" + tempMin +
                 '}';
     }
 }
